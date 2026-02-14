@@ -42,23 +42,14 @@ body{
 }
 
 .startBtn{
-
  padding:18px 40px;
-
  font-size:1.3rem;
-
  border:none;
  border-radius:40px;
-
  background:linear-gradient(180deg,#ff79bd,#ff2f7d);
  color:white;
-
- box-shadow:
- 0 0 20px rgba(255,0,128,0.6),
- 0 0 40px rgba(255,0,128,0.4);
-
+ box-shadow:0 0 25px rgba(255,0,128,0.7);
  cursor:pointer;
-
  animation:pulse 2s infinite;
 }
 
@@ -67,14 +58,12 @@ body{
  50%{transform:scale(1.1)}
 }
 
-/* MAIN CONTAINER */
+/* CONTAINER */
 
 .container{
-
  padding:60px 20px;
  max-width:900px;
  margin:auto;
-
  opacity:0;
  transform:translateY(40px);
  transition:2s;
@@ -90,44 +79,36 @@ h1{
 /* MESSAGE */
 
 #typewriter{
-
- font-size:1.4rem;
+ font-size:1.5rem;
  font-weight:500;
-
- min-height:40px;
-
+ min-height:50px;
  margin-bottom:40px;
-
- z-index:10;
- position:relative;
 }
 
 /* PHOTOS */
 
 .photos{
-
  display:flex;
  justify-content:center;
  flex-wrap:wrap;
-
  gap:25px;
-
  margin-bottom:40px;
 }
 
-.photos img{
+.photo-box{
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+}
 
+.photos img{
  width:240px;
  height:320px;
-
  object-fit:cover;
-
  border-radius:20px;
-
  box-shadow:
  0 20px 40px rgba(0,0,0,0.3),
  0 0 20px rgba(255,0,128,0.3);
-
  transition:0.4s;
 }
 
@@ -135,10 +116,15 @@ h1{
  transform:scale(1.07);
 }
 
+.caption{
+ margin-top:10px;
+ font-weight:bold;
+ font-size:1.1rem;
+}
+
 /* BUTTONS */
 
 button{
-
  padding:14px 30px;
  font-size:1.1rem;
  border:none;
@@ -147,16 +133,32 @@ button{
  margin:10px;
 }
 
-.yes{
+/* YES BUTTON IMPACT */
 
+.yes{
  background:linear-gradient(180deg,#ff79bd,#ff2f7d);
  color:white;
-
- box-shadow:0 0 20px rgba(255,0,128,0.7);
+ box-shadow:0 0 25px rgba(255,0,128,0.8);
+ transition:0.3s;
 }
 
-.no{
+.yes:hover{
+ transform:scale(1.15);
+}
 
+.yesZoom{
+ animation:yesImpact 0.6s ease;
+}
+
+@keyframes yesImpact{
+ 0%{transform:scale(1)}
+ 50%{transform:scale(1.6)}
+ 100%{transform:scale(1)}
+}
+
+/* NO BUTTON */
+
+.no{
  background:white;
  position:absolute;
 }
@@ -164,29 +166,31 @@ button{
 /* MODAL */
 
 .modal{
-
  position:fixed;
  inset:0;
-
  background:rgba(0,0,0,0.6);
-
  display:none;
-
  justify-content:center;
  align-items:center;
+ backdrop-filter:blur(8px);
 }
 
 .modal-content{
-
  background:white;
  padding:40px;
  border-radius:20px;
+ animation:zoomIn 0.5s;
+ max-width:400px;
 }
 
-/* HEARTS */
+@keyframes zoomIn{
+ from{transform:scale(0.5);opacity:0}
+ to{transform:scale(1);opacity:1}
+}
+
+/* HEART EXPLOSION */
 
 .heart{
-
  position:fixed;
  font-size:24px;
  pointer-events:none;
@@ -194,13 +198,10 @@ button{
 }
 
 @keyframes explode{
-
  to{
-
   transform:
   translate(var(--x),var(--y))
   scale(2);
-
   opacity:0;
  }
 }
@@ -208,7 +209,6 @@ button{
 /* PETALS */
 
 .petal{
-
  position:fixed;
  top:-20px;
  font-size:20px;
@@ -216,19 +216,14 @@ button{
 }
 
 @keyframes fall{
-
  to{
-
-  transform:
-  translateY(110vh)
-  rotate(360deg);
+  transform:translateY(110vh) rotate(360deg);
  }
 }
 
 /* SPARKLES */
 
 canvas{
-
  position:fixed;
  inset:0;
  pointer-events:none;
@@ -238,8 +233,6 @@ canvas{
 </head>
 
 <body>
-
-<!-- START SCREEN -->
 
 <div class="startScreen" id="startScreen">
 
@@ -261,15 +254,26 @@ Start our story ❤️
 
 <div class="photos">
 
+<div class="photo-box">
 <img src="photo1.jpg">
+<div class="caption">Us</div>
+</div>
+
+<div class="photo-box">
 <img src="photo2.jpg">
+<div class="caption">You</div>
+</div>
+
+<div class="photo-box">
 <img src="photo3.jpg">
+<div class="caption">My Fav</div>
+</div>
 
 </div>
 
 <h2>Will you be my girlfriend?</h2>
 
-<button class="yes" onclick="sayYes()">Yes ❤️</button>
+<button class="yes" id="yesBtn" onclick="sayYes()">Yes ❤️</button>
 <button class="no" id="noBtn">No 😅</button>
 
 </div>
@@ -280,35 +284,40 @@ Start our story ❤️
 
 <h2>You just made me the happiest guy alive ❤️</h2>
 
+<p>
+I don’t just want moments with you.<br><br>
+
+I want us to grow together.<br>
+To support each other.<br>
+To laugh together.<br>
+To build something real.<br><br>
+
+I want us to love each other through every season. 💫
+</p>
+
 </div>
 
 </div>
 
 <audio id="music" loop>
-
 <source src="music/seasons.mp3">
-
 </audio>
 
 <script>
 
-/* START EXPERIENCE */
+/* START */
 
 function startExperience(){
 
  const music=document.getElementById("music");
 
  music.volume=0;
-
  music.play();
 
  let fade=setInterval(()=>{
-
   if(music.volume<0.9)
    music.volume+=0.02;
-  else
-   clearInterval(fade);
-
+  else clearInterval(fade);
  },100);
 
  document.getElementById("startScreen").style.display="none";
@@ -319,15 +328,17 @@ function startExperience(){
  container.style.transform="translateY(0)";
 }
 
-/* TYPEWRITER */
+/* TYPEWRITER FULL MESSAGE */
 
 const text=[
 
-"You make everything feel right.",
+"You make my days lighter.",
 
-"You are special.",
+"Every season feels better with you.",
 
-"And I want you."
+"You’re different.",
+
+"And I don’t want to keep guessing anymore."
 ];
 
 let i=0,j=0;
@@ -344,7 +355,6 @@ function type(){
    setTimeout(type,50);
 
   }else{
-
    i++;
    j=0;
    setTimeout(type,1000);
@@ -354,9 +364,17 @@ function type(){
 
 type();
 
-/* HEART EXPLOSION */
+/* YES BUTTON IMPACT */
 
 function sayYes(){
+
+ const btn=document.getElementById("yesBtn");
+
+ btn.classList.add("yesZoom");
+
+ setTimeout(()=>{
+  btn.classList.remove("yesZoom");
+ },600);
 
  document.getElementById("modal").style.display="flex";
 
@@ -406,7 +424,6 @@ function animate(){
  if(Math.random()<0.3)
 
  stars.push({
-
   x:Math.random()*canvas.width,
   y:Math.random()*canvas.height,
   size:Math.random()*3,
@@ -430,7 +447,7 @@ function animate(){
 
 animate();
 
-/* ROSE PETALS */
+/* PETALS */
 
 setInterval(()=>{
 

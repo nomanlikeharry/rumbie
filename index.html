@@ -1,125 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rumbie 💫</title>
 
 <style>
+
 :root{
-  --bg1:#ffd1e8;
-  --bg2:#fff0c9;
-  --ink:#2b1b2b;
+ --bg1:#ffd1e8;
+ --bg2:#fff0c9;
+ --ink:#2b1b2b;
 }
 
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  color: var(--ink);
-  text-align: center;
-  overflow-x: hidden;
-  background:
-    radial-gradient(900px 700px at 15% 10%, rgba(255,79,163,0.35), transparent 55%),
-    radial-gradient(900px 700px at 85% 20%, rgba(123,63,242,0.20), transparent 60%),
-    radial-gradient(900px 700px at 50% 100%, rgba(0,180,255,0.18), transparent 60%),
-    linear-gradient(180deg, var(--bg1), var(--bg2));
+body{
+ margin:0;
+ font-family:'Segoe UI',sans-serif;
+ color:var(--ink);
+ text-align:center;
+ overflow-x:hidden;
+
+ background:
+ radial-gradient(1200px 900px at 20% 10%, rgba(255,0,128,0.35), transparent 60%),
+ radial-gradient(1000px 800px at 80% 20%, rgba(111,0,255,0.25), transparent 60%),
+ radial-gradient(1000px 900px at 50% 100%, rgba(0,200,255,0.25), transparent 60%),
+ linear-gradient(180deg,var(--bg1),var(--bg2));
+
+ animation: fadeInBody 2s ease;
 }
 
+@keyframes fadeInBody{
+ from{
+  opacity:0;
+  filter:blur(20px);
+ }
+ to{
+  opacity:1;
+  filter:blur(0);
+ }
+}
+
+/* Sparkle canvas */
 canvas{
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ z-index:0;
 }
 
-.container {
-  padding: 60px 20px;
-  position: relative;
-  z-index: 1;
+/* Entrance animation */
+.container{
+ padding:60px 20px;
+ position:relative;
+ z-index:1;
+
+ opacity:0;
+ transform:translateY(40px) scale(0.98);
+
+ animation: entrance 2s ease forwards;
+ animation-delay:0.5s;
 }
 
-h1 { font-size: 3rem; }
-
-.typewriter {
-  font-size: 1.4rem;
-  min-height: 40px;
-  margin-bottom: 40px;
-  font-weight: 600;
+@keyframes entrance{
+ to{
+  opacity:1;
+  transform:translateY(0) scale(1);
+ }
 }
 
-.photos {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 25px;
-  margin-bottom: 40px;
+/* glowing title */
+h1{
+ font-size:3rem;
+ text-shadow:
+ 0 0 10px rgba(255,0,128,0.4),
+ 0 0 20px rgba(255,0,128,0.3),
+ 0 0 40px rgba(255,0,128,0.2);
+ animation: floatTitle 4s ease-in-out infinite;
+}
+
+@keyframes floatTitle{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-8px)}
+}
+
+/* photos */
+.photos{
+ display:flex;
+ justify-content:center;
+ flex-wrap:wrap;
+ gap:25px;
+ margin-bottom:40px;
 }
 
 .photo-box{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
 }
 
-.photos img {
-  width: 260px;
-  height: 330px;
-  object-fit: cover;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-  transition: transform 0.3s ease;
+.photos img{
+ width:260px;
+ height:330px;
+ object-fit:cover;
+ border-radius:20px;
+
+ box-shadow:
+ 0 20px 50px rgba(0,0,0,0.3),
+ 0 0 20px rgba(255,0,128,0.25);
+
+ transition:0.4s;
 }
 
-.photos img:hover { transform: scale(1.05); }
+.photos img:hover{
+ transform:scale(1.08);
+ box-shadow:
+ 0 30px 70px rgba(0,0,0,0.4),
+ 0 0 30px rgba(255,0,128,0.5);
+}
 
 .caption{
-  margin-top:10px;
-  font-weight:bold;
-  font-size:1rem;
+ margin-top:10px;
+ font-weight:bold;
 }
 
-button {
-  padding: 14px 30px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  margin: 10px;
-  font-weight: bold;
+/* buttons */
+button{
+ padding:14px 30px;
+ font-size:1rem;
+ border:none;
+ border-radius:30px;
+ cursor:pointer;
+ margin:10px;
+ font-weight:bold;
+ transition:0.3s;
 }
 
-.yes {
-  background: linear-gradient(180deg,#ff79bd,#ff2f7d);
-  color: white;
+.yes{
+ background:linear-gradient(180deg,#ff79bd,#ff2f7d);
+ color:white;
+ box-shadow:0 0 20px rgba(255,0,128,0.6);
 }
 
-.no {
-  background: #fff0f6;
-  position: absolute;
+.yes:hover{
+ transform:scale(1.1);
 }
 
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+.no{
+ background:#fff0f6;
+ position:absolute;
 }
 
-.modal-content {
-  background: white;
-  padding: 40px;
-  border-radius: 20px;
-  max-width: 500px;
+/* modal */
+.modal{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,0.6);
+ display:none;
+ justify-content:center;
+ align-items:center;
+ z-index:9999;
+ backdrop-filter:blur(8px);
 }
 
-.footer {
-  margin-top: 60px;
-  opacity: 0.6;
-  font-size: 0.9rem;
+.modal-content{
+ background:white;
+ padding:40px;
+ border-radius:20px;
+ max-width:500px;
+ animation: modalEnter 0.6s ease;
 }
+
+@keyframes modalEnter{
+ from{
+  opacity:0;
+  transform:scale(0.7);
+ }
+ to{
+  opacity:1;
+  transform:scale(1);
+ }
+}
+
+/* hearts */
+.heart{
+ position:fixed;
+ font-size:24px;
+ pointer-events:none;
+ animation: explode 1.5s ease forwards;
+}
+
+@keyframes explode{
+ from{
+  transform:translate(0,0) scale(0.5);
+  opacity:1;
+ }
+ to{
+  transform:
+   translate(var(--x),var(--y))
+   scale(1.8)
+   rotate(720deg);
+  opacity:0;
+ }
+}
+
 </style>
 </head>
 
@@ -128,97 +211,89 @@ button {
 <canvas id="sparkleCanvas"></canvas>
 
 <div class="container">
-  <h1>Rumbie 💫</h1>
-  <div class="typewriter" id="typewriter"></div>
 
-  <div class="photos">
-    <div class="photo-box">
-      <img src="photo1.jpg">
-      <div class="caption">Us</div>
-    </div>
-    <div class="photo-box">
-      <img src="photo2.jpg">
-      <div class="caption">You</div>
-    </div>
-    <div class="photo-box">
-      <img src="photo3.jpg">
-      <div class="caption">My Fav</div>
-    </div>
-  </div>
+<h1>Rumbie 💫</h1>
 
-  <h2>Will you be my girlfriend?</h2>
-  <button class="yes" onclick="handleYes()">Yes ❤️</button>
-  <button class="no" id="noBtn">No 😅</button>
+<div id="typewriter"></div>
 
-  <div class="footer">Made for Rumbie 💖</div>
+<div class="photos">
+
+<div class="photo-box">
+<img src="photo1.jpg">
+<div class="caption">Us</div>
+</div>
+
+<div class="photo-box">
+<img src="photo2.jpg">
+<div class="caption">You</div>
+</div>
+
+<div class="photo-box">
+<img src="photo3.jpg">
+<div class="caption">My Fav</div>
+</div>
+
+</div>
+
+<h2>Will you be my girlfriend?</h2>
+
+<button class="yes" onclick="sayYes()">Yes ❤️</button>
+<button class="no" id="noBtn">No 😅</button>
+
 </div>
 
 <div class="modal" id="modal">
-  <div class="modal-content">
-    <h2>You just made me the happiest guy alive ❤️</h2>
-    <p>
-      Rumbie,<br><br>
-      I don’t just want moments with you.<br>
-      I want memories. Growth. Laughter. Real love.<br><br>
-      Thank you for choosing me.<br><br>
-      Let’s build something beautiful together.
-    </p>
-    <button onclick="closeModal()">Close</button>
-  </div>
+<div class="modal-content">
+
+<h2>You just made me the happiest guy alive ❤️</h2>
+
+<p>
+I don’t just want moments with you.<br>
+I want memories. Growth. Laughter. Real love.
+</p>
+
+<button onclick="closeModal()">Close</button>
+
+</div>
 </div>
 
-<audio id="bgMusic" loop playsinline>
-  <source src="music/seasons.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop autoplay>
+<source src="music/seasons.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-/* TYPEWRITER */
-const lines=[
-"You make my days lighter.",
-"Every season feels better with you in it.",
-"You’re not just special… you’re different.",
-"And I don’t want to keep guessing anymore."
-];
-let i=0,j=0;
-function typeEffect(){
- const el=document.getElementById("typewriter");
- if(i<lines.length){
-   if(j<=lines[i].length){
-     el.innerHTML=lines[i].substring(0,j++);
-     setTimeout(typeEffect,50);
-   } else {
-     i++; j=0;
-     setTimeout(typeEffect,1000);
-   }
- }
-}
-typeEffect();
 
-/* MOBILE SAFE AUDIO (iOS + Android) */
-const bgMusic=document.getElementById("bgMusic");
-let audioUnlocked=false;
+/* MUSIC */
+const music=document.getElementById("bgMusic");
+music.volume=0.9;
 
-function unlockAudio(){
- if(!audioUnlocked){
-   bgMusic.play().then(()=>{
-     bgMusic.pause();
-     bgMusic.currentTime=0;
-     audioUnlocked=true;
-   }).catch(()=>{});
- }
-}
+/* YES BUTTON HEART EXPLOSION */
+function sayYes(){
 
-document.addEventListener("touchstart", unlockAudio, {once:true});
-document.addEventListener("click", unlockAudio, {once:true});
+ explodeHearts();
 
-function startMusic(){
- bgMusic.volume=0.9;
- bgMusic.play().catch(()=>{});
-}
-
-function handleYes(){
- startMusic();
  document.getElementById("modal").style.display="flex";
+}
+
+function explodeHearts(){
+
+ for(let i=0;i<40;i++){
+
+  const heart=document.createElement("div");
+
+  heart.className="heart";
+  heart.innerHTML="❤️";
+
+  heart.style.left=window.innerWidth/2+"px";
+  heart.style.top=window.innerHeight/2+"px";
+
+  heart.style.setProperty("--x",(Math.random()*600-300)+"px");
+  heart.style.setProperty("--y",(Math.random()*600-300)+"px");
+
+  document.body.appendChild(heart);
+
+  setTimeout(()=>heart.remove(),1500);
+ }
 }
 
 function closeModal(){
@@ -227,40 +302,107 @@ function closeModal(){
 
 /* RUNNING NO BUTTON */
 const noBtn=document.getElementById("noBtn");
+
 function moveButton(){
+
  const x=Math.random()*(window.innerWidth-120);
  const y=Math.random()*(window.innerHeight-120);
+
  noBtn.style.left=x+"px";
  noBtn.style.top=y+"px";
 }
+
 noBtn.addEventListener("mouseover",moveButton);
-noBtn.addEventListener("click",moveButton);
+
+/* TYPEWRITER */
+const lines=[
+"You make my days lighter.",
+"Every season feels better with you.",
+"You’re different.",
+"And I don’t want to keep guessing anymore."
+];
+
+let i=0,j=0;
+
+function type(){
+
+ const el=document.getElementById("typewriter");
+
+ if(i<lines.length){
+
+  if(j<=lines[i].length){
+
+   el.innerHTML=lines[i].substring(0,j++);
+   setTimeout(type,50);
+
+  }else{
+
+   i++;
+   j=0;
+   setTimeout(type,1000);
+
+  }
+ }
+}
+
+type();
 
 /* SPARKLES */
 const canvas=document.getElementById("sparkleCanvas");
 const ctx=canvas.getContext("2d");
-function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
-resize();window.onresize=resize;
-let sparkles=[];
-function createSparkle(){
- sparkles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,size:1+Math.random()*3,alpha:1,fade:0.01+Math.random()*0.02});
+
+function resize(){
+ canvas.width=window.innerWidth;
+ canvas.height=window.innerHeight;
 }
-function animate(){
- ctx.clearRect(0,0,canvas.width,canvas.height);
- if(Math.random()<0.3) createSparkle();
- sparkles.forEach((s,i)=>{
-   s.alpha-=s.fade;
-   ctx.globalAlpha=s.alpha;
-   ctx.fillStyle="white";
-   ctx.beginPath();
-   ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
-   ctx.fill();
-   if(s.alpha<=0) sparkles.splice(i,1);
+
+resize();
+window.onresize=resize;
+
+let sparkles=[];
+
+function createSparkle(){
+
+ sparkles.push({
+  x:Math.random()*canvas.width,
+  y:Math.random()*canvas.height,
+  size:1+Math.random()*3,
+  alpha:1,
+  fade:0.01+Math.random()*0.02
  });
+}
+
+function animate(){
+
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ if(Math.random()<0.3) createSparkle();
+
+ sparkles.forEach((s,i)=>{
+
+  s.alpha-=s.fade;
+
+  ctx.globalAlpha=s.alpha;
+
+  ctx.fillStyle="white";
+
+  ctx.beginPath();
+
+  ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
+
+  ctx.fill();
+
+  if(s.alpha<=0) sparkles.splice(i,1);
+
+ });
+
  ctx.globalAlpha=1;
+
  requestAnimationFrame(animate);
 }
+
 animate();
+
 </script>
 
 </body>

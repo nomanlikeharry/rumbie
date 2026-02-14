@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rumbie 💫</title>
+
+<style>
+:root{
+  --bg1:#ffd1e8;
+  --bg2:#fff0c9;
+  --ink:#2b1b2b;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--ink);
+  text-align: center;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(900px 700px at 15% 10%, rgba(255,79,163,0.35), transparent 55%),
+    radial-gradient(900px 700px at 85% 20%, rgba(123,63,242,0.20), transparent 60%),
+    radial-gradient(900px 700px at 50% 100%, rgba(0,180,255,0.18), transparent 60%),
+    linear-gradient(180deg, var(--bg1), var(--bg2));
+}
+
+/* Sparkle canvas */
+canvas{
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Dotted overlay */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.12;
+  background-image:
+    radial-gradient(circle at 12px 12px, rgba(0,0,0,.12) 2px, transparent 2.2px);
+  background-size:70px 70px;
+  z-index:0;
+}
+
+.container {
+  padding: 60px 20px;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+.typewriter {
+  font-size: 1.4rem;
+  min-height: 40px;
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
+/* Photos */
+.photos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.photo-box{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.photos img {
+  width: 260px;
+  height: 330px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease;
+}
+
+.photos img:hover {
+  transform: scale(1.05);
+}
+
+.caption{
+  margin-top:10px;
+  font-weight:bold;
+  font-size:1rem;
+}
+
+/* Buttons */
+button {
+  padding: 14px 30px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  margin: 10px;
+  transition: 0.3s ease;
+  font-weight: bold;
+}
+
+.yes {
+  background: linear-gradient(180deg,#ff79bd,#ff2f7d);
+  color: white;
+}
+
+.no {
+  background: #fff0f6;
+  position: absolute;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* MODAL FIXED */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* THIS FIXES THE PROBLEM */
+}
+
+.modal-content {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 500px;
+  text-align: center;
+}
+
+.footer {
+  margin-top: 60px;
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="sparkleCanvas"></canvas>
+
+<div class="container">
+  <h1>Rumbie 💫</h1>
+  <div class="typewriter" id="typewriter"></div>
+
+  <div class="photos">
+    <div class="photo-box">
+      <img src="photo1.jpg" alt="Us">
+      <div class="caption">Us</div>
+    </div>
+
+    <div class="photo-box">
+      <img src="photo2.jpg" alt="You">
+      <div class="caption">You</div>
+    </div>
+
+    <div class="photo-box">
+      <img src="photo3.jpg" alt="My Fav">
+      <div class="caption">My Fav</div>
+    </div>
+  </div>
+
+  <h2>Will you be my girlfriend?</h2>
+
+  <button class="yes" onclick="sayYes()">Yes ❤️</button>
+  <button class="no" id="noBtn">No 😅</button>
+
+  <div class="footer">Made for Rumbie 💖</div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h2>You just made me the happiest guy alive ❤️</h2>
+    <p>
+      Rumbie,<br><br>
+      I don’t just want moments with you.<br>
+      I want memories. Growth. Laughter. Real love.<br><br>
+      Thank you for choosing me.<br><br>
+      Let’s build something beautiful together.
+    </p>
+    <button onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<audio id="bgMusic" loop preload="auto">
+  <source src="music/seasons.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* TYPEWRITER */
+const lines=[
+"You make my days lighter.",
+"Every season feels better with you in it.",
+"You’re not just special… you’re different.",
+"And I don’t want to keep guessing anymore."
+];
+
+let i=0,j=0;
+function typeEffect(){
+ const el=document.getElementById("typewriter");
+ if(i<lines.length){
+   if(j<=lines[i].length){
+     el.innerHTML=lines[i].substring(0,j++);
+     setTimeout(typeEffect,50);
+   } else {
+     i++; j=0;
+     setTimeout(typeEffect,1000);
+   }
+ }
+}
+typeEffect();
+
+/* MUSIC FIX */
+const bgMusic=document.getElementById("bgMusic");
+function startMusic(){
+ bgMusic.volume=0.9;
+ bgMusic.play().catch(()=>{});
+ document.removeEventListener("click",startMusic);
+ document.removeEventListener("touchstart",startMusic);
+}
+document.addEventListener("click",startMusic);
+document.addEventListener("touchstart",startMusic);
+
+/* RUNNING NO BUTTON */
+const noBtn=document.getElementById("noBtn");
+function moveButton(){
+ const x=Math.random()*(window.innerWidth-120);
+ const y=Math.random()*(window.innerHeight-120);
+ noBtn.style.left=x+"px";
+ noBtn.style.top=y+"px";
+}
+noBtn.addEventListener("mouseover",moveButton);
+noBtn.addEventListener("click",moveButton);
+
+/* MODAL */
+function sayYes(){
+ document.getElementById("modal").style.display="flex";
+}
+function closeModal(){
+ document.getElementById("modal").style.display="none";
+}
+
+/* SPARKLE ANIMATION */
+const canvas=document.getElementById("sparkleCanvas");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+ canvas.width=window.innerWidth;
+ canvas.height=window.innerHeight;
+}
+resize();
+window.onresize=resize;
+
+let sparkles=[];
+
+function createSparkle(){
+ sparkles.push({
+   x:Math.random()*canvas.width,
+   y:Math.random()*canvas.height,
+   size:1+Math.random()*3,
+   alpha:1,
+   fade:0.01+Math.random()*0.02
+ });
+}
+
+function animateSparkles(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ if(Math.random()<0.3) createSparkle();
+ sparkles.forEach((s,i)=>{
+   s.alpha-=s.fade;
+   ctx.globalAlpha=s.alpha;
+   ctx.fillStyle="white";
+   ctx.beginPath();
+   ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
+   ctx.fill();
+   if(s.alpha<=0) sparkles.splice(i,1);
+ });
+ ctx.globalAlpha=1;
+ requestAnimationFrame(animateSparkles);
+}
+animateSparkles();
+</script>
+
+</body>
+</html>
